@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+
+        <!-- Tree view definition -->
+        <record model="ir.ui.view" id="truffle_app.tree_view_line">
+            <field name="name">Line Tree View</field>
+            <field name="model">truffle_app.line_model</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                <!--<field name="reference" /> -->
+                    <field name="product" />
+                    <field name="quantity" />
+                    <field name="weight" />
+                    <field name="price" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view definition -->
+        <record model="ir.ui.view" id="truffle_app.form_view_line">
+            <field name="name">Line Form View</field>
+            <field name="model">truffle_app.line_model</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                <!--    <field name="reference" /> -->
+                        <field name="product" />
+                        <field name="quantity" />
+                        <field name="weight" />
+                        <field name="unit" />
+                        <field name="unit_price" />
+                        <field name="price" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action definition -->
+        <record model="ir.actions.act_window" id="truffle_app.line_action_window">
+            <field name="name">Line</field>
+            <field name="res_model">truffle_app.line_model</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="truffle_app.tree_view_line" />
+        </record>
+
+    </data>
+</odoo>

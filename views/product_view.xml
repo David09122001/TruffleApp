@@ -1,0 +1,51 @@
+<odoo>
+    <data>
+
+        <!-- Tree view definition -->
+        <record model="ir.ui.view" id="truffle_app.tree_view_product">
+            <field name="name">Product Tree View</field>
+            <field name="model">truffle_app.product_model</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="price" />
+                    <field name="category" />
+                    <field name="quality" />
+                    <field name="weight" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view definition -->
+        <record model="ir.ui.view" id="truffle_app.form_view_product">
+            <field name="name">Product Form View</field>
+            <field name="model">truffle_app.product_model</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name" />
+                        <field name="photo" widget="image"/>
+                        <field name="price" />
+                        <field name="description" />
+                        <field name="category" />
+                        <field name="quality" domain="[('category','=',category)]"/>
+                        <field name="weight" domain="[('category','=',category)]" />
+                        <field name="stock" />
+                        <field name="unit" />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action definition -->
+        <record model="ir.actions.act_window" id="truffle_app.product_action_window">
+            <field name="name">Product</field>
+            <field name="res_model">truffle_app.product_model</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="truffle_app.tree_view_product" />
+        </record>
+
+    </data>
+</odoo>
