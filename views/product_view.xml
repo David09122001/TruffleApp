@@ -31,9 +31,10 @@
                         <field name="description" />
                         <field name="category" />
                         <field name="quality" domain="[('category','=',category)]"/>
-                        <field name="weight" domain="[('category','=',category)]" />
-                        <field name="stock" />
+                        <field name="weight" domain="[('category','=',category)]" />ç
                         <field name="unit" />
+                        <field name="stock" />
+                        
                     </group>
                 </form>
             </field>
@@ -43,9 +44,39 @@
         <record model="ir.actions.act_window" id="truffle_app.product_action_window">
             <field name="name">Product</field>
             <field name="res_model">truffle_app.product_model</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,kanban</field>
             <field name="view_id" ref="truffle_app.tree_view_product" />
         </record>
+        <record model="ir.ui.view" id="truffle_app.kanban_view_product">
+            <field name="name">Product Kanban View</field>
+            <field name="model">truffle_app.product_model</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="photo" widget="image" options="{'size': (50, 50)}"/> 
+        
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_content">
+                                <div class="oe_kanban_primary">
+                                    <div>
+                                        <field name="photo" widget="image"/>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <field name="name"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+s        
+        
+        
 
     </data>
 </odoo>

@@ -24,6 +24,7 @@
             <field name="arch" type="xml">
                 <form>
                     <group>
+                        <field name="path"/>
                         <field name="name" />
                         <field name="description" />
                         <field name="product" />

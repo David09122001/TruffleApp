@@ -7,13 +7,13 @@
             <field name="model">truffle_app.invoice_model</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-success="state == 'C'" decoration-info="state == 'D'">
                     <field name="reference" />
                     <field name="date" />
                     <field name="total" /> <!-- sin vat-->
                     <field name="vat" />
                     <field name="state" />
-                </tree>
+                    </tree>
             </field>
         </record>
 
@@ -47,9 +47,62 @@
         <record model="ir.actions.act_window" id="truffle_app.invoice_action_window">
             <field name="name">Invoice</field>
             <field name="res_model">truffle_app.invoice_model</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="truffle_app.tree_view_invoice" />
+            <field name="view_mode">tree,form,calendar,graph,pivot</field>
+            <field name="view_id" ref="truffle_app.tree_view_invoice" />    
         </record>
+
+        <record model="ir.ui.view" id="truffle_app.search_invoice_model">
+            <field name="name">Invoice Filters</field>
+            <field name="model">truffle_app.invoice_model</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Confirmed" name="Confirmed" domain="[('state', '=', 'C')]"/>
+                    <filter string="Draft" name="Draft" domain="[('state', '=', 'D')]"/> 
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="truffle_app.calendar_invoice">
+            <field name="name">Calendar invoices</field>
+            <field name="model">truffle_app.invoice_model</field>
+            <field name="arch" type="xml">
+            <calendar date_start="date" color="reference" event_open_popup="True" mode="month" form_view_id="truffle_app.form_view_invoice" quick_add="False">
+            <field name="reference"/>
+            <field name="date"/>
+            </calendar>
+            </field>
+        </record>
+
+        <!-- Graph view definition -->
+        <record model="ir.ui.view" id="truffle_app.graph_view_invoice">
+            <field name="name">Invoice Graph View</field>
+            <field name="model">truffle_app.invoice_model</field>
+            <field name="type">graph</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="client" type="row"/>
+                    <field name="date" interval="month"/>
+                    <field name="total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Pivot view definition -->
+        <record model="ir.ui.view" id="truffle_app.pivot_view_invoice">
+            <field name="name">Invoice Pivot View</field>
+            <field name="model">truffle_app.invoice_model</field>
+            <field name="type">pivot</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="client" type="row"/>
+                    <field name="date"/>
+                    <field name="total" type="measure" widget="monetary"/>
+                </pivot>
+            </field>
+        </record>
+
+        
+        
 
     </data>
 </odoo>
