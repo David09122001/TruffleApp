@@ -10,7 +10,8 @@
         <menuitem name="Weight" id="truffle_app.menu_weight" parent="truffle_app.menu_root" />
         <menuitem name="Category" id="truffle_app.menu_category" parent="truffle_app.menu_root" />
         <menuitem name="Invoice" id="truffle_app.menu_invoice" parent="truffle_app.menu_root" />
-        <menuitem name="Line" id="truffle_app.menu_line" parent="truffle_app.menu_root" /> 
+        <menuitem name="Order" id="truffle_app.menu_order" parent="truffle_app.menu_root" />
+         <!-- <menuitem name="Line" id="truffle_app.menu_line" parent="truffle_app.menu_root" />  -->
 
         <!-- actions -->
         <menuitem name="Product list" id="truffle_app.menu_product_list" parent="truffle_app.menu_product" action="truffle_app.product_action_window"/>
@@ -18,6 +19,8 @@
         <menuitem name="Weight list" id="truffle_app.menu_weight_list" parent="truffle_app.menu_weight" action="truffle_app.weight_action_window"/>
         <menuitem name="Category list" id="truffle_app.menu_category_list" parent="truffle_app.menu_category" action="truffle_app.category_action_window"/>
         <menuitem name="Invoice list" id="truffle_app.menu_invoice_list" parent="truffle_app.menu_invoice" action="truffle_app.invoice_action_window"/>
-        <menuitem name="Line list" id="truffle_app.menu_line_list" parent="truffle_app.menu_line" action="truffle_app.line_action_window"/>
-        </data>
+        <menuitem name="Order list" id="truffle_app.menu_order_list" parent="truffle_app.menu_order" action="truffle_app.order_action_window"/>
+        
+        <!--  <menuitem name="Line list" id="truffle_app.menu_line_list" parent="truffle_app.menu_line" action="truffle_app.line_action_window"/>
+    -->    </data>
 </odoo>

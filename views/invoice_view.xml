@@ -7,13 +7,15 @@
             <field name="model">truffle_app.invoice_model</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree decoration-success="state == 'C'" decoration-info="state == 'D'">
+                <tree decoration-success="stateConf == 'C'" decoration-info="stateConf == 'D'">
                     <field name="reference" />
+                    <field name="client" />
                     <field name="date" />
                     <field name="total" /> <!-- sin vat-->
                     <field name="vat" />
-                    <field name="state" />
-                    </tree>
+                    <field name="stateConf" />
+                </tree>
+    
             </field>
         </record>
 
@@ -25,16 +27,17 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="confirmInvoice" type="object" string="Change state" class="oe_highlight" confirm="Change state of the order?" attrs="{'invisible': [('state','=', 'C')]}"></button>
-                        <field name="state" widget="statusbar"/>
+                        <button name="confirmInvoice" type="object" string="Change state" class="oe_highlight" confirm="Change state of the order?" attrs="{'invisible': [('stateConf','=', 'C')]}"></button>
+                        <field name="stateConf" widget="statusbar"/>
+                        <button string="Set All Invoices Historical" type="object" name="set_all_invoices_active" class="oe_highlight" confirm="Are you sure you want to set all confirmed invoices to historical?" />
                     </header>
                     <group>
                         <field name="reference" readonly='True'/>
-                        <field name="date" attrs="{'readonly': [('state','=', 'C')]}"/>
+                        <field name="date" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
                         <field name="base" readonly='True'/>
-                        <field name="vat" attrs="{'readonly': [('state','=', 'C')]}"/>
-                        <field name="lines" attrs="{'readonly': [('state','=', 'C')]}"/>
-                        <field name="client" attrs="{'readonly': [('state','=', 'C')]}"/>
+                        <field name="vat" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
+                        <field name="lines" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
+                        <field name="client" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
                      <!--   <field name="product"/> 
                         <field name="quantity"/>-->
                         <field name="total" readonly='True'/>
@@ -56,8 +59,8 @@
             <field name="model">truffle_app.invoice_model</field>
             <field name="arch" type="xml">
                 <search>
-                    <filter string="Confirmed" name="Confirmed" domain="[('state', '=', 'C')]"/>
-                    <filter string="Draft" name="Draft" domain="[('state', '=', 'D')]"/> 
+                    <filter string="Confirmed" name="Confirmed" domain="[('stateConf', '=', 'C')]"/>
+                    <filter string="Draft" name="Draft" domain="[('stateConf', '=', 'D')]"/> 
                 </search>
             </field>
         </record>
@@ -95,7 +98,9 @@
             <field name="arch" type="xml">
                 <pivot>
                     <field name="client" type="row"/>
-                    <field name="date"/>
+                    <field name="date" type="col"/>
+                    <field name="base"/>
+                    <field name="vat"/>
                     <field name="total" type="measure" widget="monetary"/>
                 </pivot>
             </field>

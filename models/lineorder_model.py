@@ -3,25 +3,17 @@
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
 
-class LineModel(models.Model):
-    _name='truffle_app.line_model'
-    _description = 'Line Model'
+class LineorderModel(models.Model):
+    _name='truffle_app.lineorder_model'
+    _description = 'Line Order Model'
 
-    reference = fields.Many2one("truffle_app.invoice_model", string="Invoice reference")
-    #order = fields.Many2one("truffle_app.order_model", string="Order reference")
+    order = fields.Many2one("truffle_app.order_model", string="Order reference")
     product = fields.Many2one("truffle_app.product_model", string="Product")
     weight = fields.Integer(string="Weight", help="Total weight of the product")
     quantity = fields.Integer(string="Quantity", help="Quantity of the product.")
     price = fields.Float(string="Price", compute="_compute_price", help="Price of the product.")
     unit_price = fields.Float(string="Unit price", help="Unit price of the product.")
     unit = fields.Selection(string="Unit", related="product.unit", readonly=True, store=True)
-
-    @api.model
-    def create(self, values):
-        line = super(LineModel, self).create(values)
-        line._onchange_product()
-        line._onchange_quantity()
-        return line
 
     @api.onchange('product')
     def _onchange_product(self):
@@ -46,7 +38,7 @@ class LineModel(models.Model):
                 price_product = line.unit_price
 
                 if line.quantity > line.product.stock:
-                    raise ValidationError("La cantidad excede el stock disponible para el producto.")
+                    raise ValidationError("The quantity exceeds the available stock for the product.")
 
                 line.weight = line.quantity * line.product.weight.weight
                 line.price = (line.weight / weight) * price_product

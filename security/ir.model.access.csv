@@ -5,3 +5,5 @@ access_truffle_app_quality_model,truffle_app.quality_model,model_truffle_app_qua
 access_truffle_app_category_model,truffle_app.category_model,model_truffle_app_category_model,base.group_user,1,1,1,1
 access_truffle_app_invoice_model,truffle_app.invoice_model,model_truffle_app_invoice_model,base.group_user,1,1,1,1
 access_truffle_app_line_model,truffle_app.line_model,model_truffle_app_line_model,base.group_user,1,1,1,1
+access_truffle_app_order_model,truffle_app.order_model,model_truffle_app_order_model,base.group_user,1,1,1,1
+access_truffle_app_lineorder_model,truffle_app.lineorder_model,model_truffle_app_lineorder_model,base.group_user,1,1,1,1

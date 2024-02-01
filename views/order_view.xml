@@ -1,0 +1,105 @@
+<odoo>
+    <data><!-- Tree view definition -->
+        <record model="ir.ui.view" id="truffle_app.tree_view_order">
+            <field name="name">Order Tree View</field>
+            <field name="model">truffle_app.order_model</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="reference" />
+                    <field name="client" />
+                    <field name="date" />
+                    <field name="total" /> <!-- sin vat-->
+                    <field name="vat" />
+                    <field name="stateConf"/>
+                    <field name="stateInvo"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view definition -->
+        <record model="ir.ui.view" id="truffle_app.form_view_order">
+            <field name="name">Order Form View</field>
+            <field name="model">truffle_app.order_model</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="confirmConfirmed" type="object"
+                            string="Change state to Confirmed"
+                            class="oe_highlight" confirm="Change state of the order to Confimed?"
+                            attrs="{'invisible': [('stateConf','=', 'C')]}"></button>
+                            <button name="confirmInvoiced" type="object"
+                            string="Change state to Invoiced"
+                            class="oe_highlight"
+                            confirm="Change state of the order to Invoiced?"
+                            attrs="{'invisible': [('stateConf', '=', 'D')]}"/>
+                        <button string="Set All Invoices Historical" type="object" name="set_all_invoices_active" class="oe_highlight" confirm="Are you sure you want to set all invoiced drafts to historical?" />
+                        <field name="stateConf" widget="statusbar" />
+                        <field name="stateInvo" widget="statusbar" />
+                    </header>
+                    <group>
+                        <field name="reference" readonly='True' />
+                        <field name="date" attrs="{'readonly': [('stateConf','!=', 'D')]}" />
+                        <field name="base" readonly='True' />
+                        <field name="vat" attrs="{'readonly': [('stateConf','!=', 'D')]}" />
+                        <field name="lines" attrs="{'readonly': [('stateConf','!=', 'D')]}" />
+                        <field name="client" attrs="{'readonly': [('stateConf','!=', 'D')]}" />
+                        <field name="total" readonly='True' />
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="truffle_app.search_order_model">
+            <field name="name">Order Filters</field>
+            <field name="model">truffle_app.order_model</field>
+            <field name="arch" type="xml">
+                <search>
+                    <filter string="Confirmed" name="Confirmed" domain="[('stateConf', '=', 'C')]"/>
+                    <filter string="Draft" name="Draft" domain="[('stateInvo', '=', 'D')]"/> 
+                    <filter string="Invoiced" name="Invoiced" domain="[('stateInvo', '=', 'I')]"/> 
+                </search>
+            </field>
+        </record>
+
+        <!-- Action definition -->
+        <record model="ir.actions.act_window" id="truffle_app.order_action_window">
+            <field name="name">Order</field>
+            <field name="res_model">truffle_app.order_model</field>
+            <field name="view_mode">tree,form,graph,pivot</field>
+            <field name="view_id" ref="truffle_app.tree_view_order" />
+        </record>
+
+        <!-- Graph view definition -->
+        <record model="ir.ui.view" id="truffle_app.graph_view_order">
+            <field name="name">Order Graph View</field>
+            <field name="model">truffle_app.order_model</field>
+            <field name="type">graph</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="client" type="row"/>
+                    <field name="date" interval="month"/>
+                    <field name="total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+
+        <!-- Pivot view definition -->
+        <record model="ir.ui.view" id="truffle_app.pivot_view_order">
+            <field name="name">Order Pivot View</field>
+            <field name="model">truffle_app.order_model</field>
+            <field name="type">pivot</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="client" type="row"/>
+                    <field name="date" type="col"/>
+                    <field name="base"/>
+                    <field name="vat"/>
+                    <field name="total" type="measure" widget="monetary"/>
+                </pivot>
+            </field>
+        </record>
+
+    </data>
+</odoo> 
