@@ -19,3 +19,4 @@ class Product_model(models.Model):
         readonly=True,
         store=True,
     )
+    category_path = fields.Char(string="Category Path", related="category.path", readonly=True, store=True)

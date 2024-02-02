@@ -24,18 +24,20 @@
             <field name="type">kanban</field>
             <field name="arch" type="xml">
                 <kanban>
-                    <field name="name"/>
-                    <field name="photo" widget="image" options="{'size': (50, 50)}"/> 
-        
+                    <field name="name" />
+                    <field name="photo" />
+
                     <templates>
                         <t t-name="kanban-box">
-                            <div class="oe_kanban_content">
-                                <div class="oe_kanban_primary">
-                                    <div>
-                                        <field name="photo" widget="image"/>
-                                    </div>
-                                    <div style="text-align: center;">
-                                        <field name="name"/>
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="oe_kanban_primary">
+                                        <div>
+                                            <field name="photo" widget="image" />
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <field name="name" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -55,22 +57,21 @@
                 <form>
                     <group>
                         <field name="name" />
-                        <field name="photo" widget="image"/>
+                        <field name="photo" widget="image" />
                         <field name="price" />
                         <field name="description" />
+                        <field name="category_path"/>
                         <field name="category" />
-                        <field name="quality" domain="[('category','=',category)]"/>
+                        <field name="quality" domain="[('category','=',category)]" />
                         <field name="weight" domain="[('category','=',category)]" />
                         <field name="unit" />
-                        <field name="stock" />   
+                        <field name="stock" />
                     </group>
                 </form>
             </field>
         </record>
 
 
-        
-        
         <!-- Action definition -->
         <record model="ir.actions.act_window" id="truffle_app.product_action_window">
             <field name="name">Product</field>

@@ -7,13 +7,14 @@
             <field name="model">truffle_app.invoice_model</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-                <tree decoration-success="stateConf == 'C'" decoration-info="stateConf == 'D'">
+                <tree decoration-success="stateConf == 'C'" decoration-danger="stateConf == 'D'">
                     <field name="reference" />
                     <field name="client" />
                     <field name="date" />
-                    <field name="total" /> <!-- sin vat-->
+                    <field name="base"/>
                     <field name="vat" />
-                    <field name="stateConf" />
+                    <field name="total" /> 
+                    <field name="stateConf" invisible="1" widget="handle" />
                 </tree>
     
             </field>
@@ -27,7 +28,7 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="confirmInvoice" type="object" string="Change state" class="oe_highlight" confirm="Change state of the order?" attrs="{'invisible': [('stateConf','=', 'C')]}"></button>
+                        <button name="confirmInvoice" type="object" string="Change state" class="oe_highlight" confirm="Are you sure you want change state of the invoice to confirmed?" attrs="{'invisible': [('stateConf','=', 'C')]}"></button>
                         <field name="stateConf" widget="statusbar"/>
                         <button string="Set All Invoices Historical" type="object" name="set_all_invoices_active" class="oe_highlight" confirm="Are you sure you want to set all confirmed invoices to historical?" />
                     </header>

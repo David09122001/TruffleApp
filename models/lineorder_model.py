@@ -8,9 +8,9 @@ class LineorderModel(models.Model):
     _description = 'Line Order Model'
 
     order = fields.Many2one("truffle_app.order_model", string="Order reference")
-    product = fields.Many2one("truffle_app.product_model", string="Product")
+    product = fields.Many2one("truffle_app.product_model", string="Product", required=True)
     weight = fields.Integer(string="Weight", help="Total weight of the product")
-    quantity = fields.Integer(string="Quantity", help="Quantity of the product.")
+    quantity = fields.Integer(string="Quantity", help="Quantity of the product.", required=True)
     price = fields.Float(string="Price", compute="_compute_price", help="Price of the product.")
     unit_price = fields.Float(string="Unit price", help="Unit price of the product.")
     unit = fields.Selection(string="Unit", related="product.unit", readonly=True, store=True)

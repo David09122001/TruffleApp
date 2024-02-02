@@ -11,7 +11,8 @@ class Invoice_model(models.Model):
 
      
     reference = fields.Integer(string="Reference",required=True,default=lambda self: self._get_id(),index=True,help="Invoice Reference")
-    #order_reference = fields.Char(related='order.reference', string='Order Reference', store=True)
+    #order_reference = fields.Integer(string="Order Reference", related="lines.order.reference", readonly=True, copy=False)
+
     date = fields.Date(string="Emited date",required=True,default=datetime.now(),help="Date")
     base = fields.Float(string="Base",compute="_calculate_base",help="DNI for Client", store=True)
     vat = fields.Selection(string="VAT",selection=[('0','0'),('4','4'),('10','10'),('21','21')], default='0',help="VAT for this invoice")
@@ -37,12 +38,11 @@ class Invoice_model(models.Model):
 
     def confirmInvoice(self):
         self.stateConf = 'C'
-        #Quitar stock
-        for line in self.lines:
-            line.product.stock = line.product.stock - line.weight
+        
 
     def set_all_invoices_active(self):
-        # Set active=False for all invoices
+        # Set active=False for all invoices 
+        # Añadir tambien las I
         confirmed_orders = self.search([('stateConf', '=', 'C')])
         confirmed_orders.write({'active': False})
 
