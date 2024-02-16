@@ -8,19 +8,20 @@ class Invoice_model(models.Model):
     _name='truffle_app.invoice_model'
     _description = 'Invoice Model'
     _rec_name = 'reference'
+    _order = 'date desc'
 
      
     reference = fields.Integer(string="Reference",required=True,default=lambda self: self._get_id(),index=True,help="Invoice Reference")
     #order_reference = fields.Integer(string="Order Reference", related="lines.order.reference", readonly=True, copy=False)
-
     date = fields.Date(string="Emited date",required=True,default=datetime.now(),help="Date")
     base = fields.Float(string="Base",compute="_calculate_base",help="DNI for Client", store=True)
     vat = fields.Selection(string="VAT",selection=[('0','0'),('4','4'),('10','10'),('21','21')], default='0',help="VAT for this invoice")
     total = fields.Float(string="Total",compute="_calculate_total",help="Total invoice",store=True)
     lines = fields.One2many("truffle_app.line_model","reference",string="Lines")
-    client = fields.Many2one("res.partner", string="Client")
+    client = fields.Many2one("res.partner", string="Client", required=True, default=lambda self: self._default_client())
     active = fields.Boolean(string="Historical invoices",default=True)
     stateConf = fields.Selection(string="Status",selection=[('D','Draft'),('C','Confirmed')], default="D")
+    invoice_pdf = fields.Binary(string='Invoice PDF', readonly=True)
 
     def _get_id(self):
         if not self.env['truffle_app.invoice_model'].search([]):
@@ -43,14 +44,13 @@ class Invoice_model(models.Model):
     def set_all_invoices_active(self):
         # Set active=False for all invoices 
         # Añadir tambien las I
-        confirmed_orders = self.search([('stateConf', '=', 'C')])
-        confirmed_orders.write({'active': False})
+        inactive_invoices = self.search([('stateConf', 'in', ['C', 'I'])])
+        inactive_invoices.write({'active': False})
 
         # Set active=True for the new invoices
         new_invoices = self.search([('stateConf', '=', 'D')])
         new_invoices.write({'active': True})
 
-
-        
-
-    
+    @api.model
+    def _default_client(self):
+        return self.env.user.partner_id.id

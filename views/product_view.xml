@@ -18,6 +18,7 @@
             </field>
         </record>
 
+        <!-- Kanban view definition -->
         <record model="ir.ui.view" id="truffle_app.kanban_view_product">
             <field name="name">Product Kanban View</field>
             <field name="model">truffle_app.product_model</field>
@@ -47,26 +48,27 @@
             </field>
         </record>
 
-
         <!-- Form view definition -->
-        <record model="ir.ui.view" id="truffle_app.form_view_product">
+        <record id="truffle_app.form_view_product" model="ir.ui.view">
             <field name="name">Product Form View</field>
             <field name="model">truffle_app.product_model</field>
-            <field name="type">form</field>
             <field name="arch" type="xml">
                 <form>
-                    <group>
-                        <field name="name" />
-                        <field name="photo" widget="image" />
-                        <field name="price" />
-                        <field name="description" />
-                        <field name="category_path"/>
-                        <field name="category" />
-                        <field name="quality" domain="[('category','=',category)]" />
-                        <field name="weight" domain="[('category','=',category)]" />
-                        <field name="unit" />
-                        <field name="stock" />
-                    </group>
+                    <sheet>
+                        <group>
+                            <!-- Field attributes for clients -->
+                            <field name="name" />
+                            <field name="photo" widget="image"/>
+                            <field name="price" />
+                            <field name="description" />
+                            <field name="category_path" />
+                            <field name="category" />
+                            <field name="quality" />
+                            <field name="weight" />
+                            <field name="unit" />
+                            <field name="stock" />
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -79,6 +81,7 @@
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="truffle_app.kanban_view_product" />
         </record>
+
 
     </data>
 </odoo>

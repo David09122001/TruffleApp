@@ -1,23 +1,6 @@
 <odoo>
     <data>
 
-        <!-- Tree view definition -->
-        <record model="ir.ui.view" id="truffle_app.tree_view_lineorder">
-            <field name="name">LineOrder Tree View</field>
-            <field name="model">truffle_app.lineorder_model</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-                <tree>
-                <!--<field name="order" /> -->
-                    <field name="product" />
-                    <field name="quantity" />
-                    <field name="weight" />
-                    <field name="unit" />
-                    <field name="price" />
-                </tree>
-            </field>
-        </record>
-
         <!-- Form view definition -->
         <record model="ir.ui.view" id="truffle_app.form_view_lineorder">
             <field name="name">LineOrder Form View</field>
@@ -42,8 +25,8 @@
         <record model="ir.actions.act_window" id="truffle_app.lineorder_action_window">
             <field name="name">LineOrder</field>
             <field name="res_model">truffle_app.lineorder_model</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="truffle_app.tree_view_lineorder" />
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="truffle_app.form_view_lineorder" />
         </record>
 
     </data>

@@ -22,3 +22,5 @@ class Category_model(models.Model):
                 path = f"{parent.name}/{path}" if parent.name else path
                 parent = parent.parent_id
             category.path = path
+
+    

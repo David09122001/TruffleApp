@@ -28,16 +28,25 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <button name="confirmInvoice" type="object" string="Change state" class="oe_highlight" confirm="Are you sure you want change state of the invoice to confirmed?" attrs="{'invisible': [('stateConf','=', 'C')]}"></button>
+                        <button name="confirmInvoice" type="object" string="Change state" class="oe_highlight" groups="truffle_app.truffle_group_administrator" confirm="Are you sure you want change state of the invoice to confirmed?" attrs="{'invisible': [('stateConf','=', 'C')]}"></button>
                         <field name="stateConf" widget="statusbar"/>
-                        <button string="Set All Invoices Historical" type="object" name="set_all_invoices_active" class="oe_highlight" confirm="Are you sure you want to set all confirmed invoices to historical?" />
+                        <button name="set_all_invoices_active" string="Set All Invoices Historical" type="object" class="oe_highlight" groups="truffle_app.truffle_group_administrator" confirm="Are you sure you want to set all confirmed invoices to historical?" />
                     </header>
                     <group>
                         <field name="reference" readonly='True'/>
                         <field name="date" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
                         <field name="base" readonly='True'/>
                         <field name="vat" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
-                        <field name="lines" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
+                        <field name="lines" attrs="{'readonly': [('stateConf','=', 'C')]}">
+                            <tree>
+                                <!--<field name="reference" /> -->
+                                    <field name="product" />
+                                    <field name="quantity" />
+                                    <field name="weight" />
+                                    <field name="unit" />
+                                    <field name="price" />
+                                </tree>
+                        </field>    
                         <field name="client" attrs="{'readonly': [('stateConf','=', 'C')]}"/>
                      <!--   <field name="product"/> 
                         <field name="quantity"/>-->
@@ -107,6 +116,16 @@
             </field>
         </record>
 
+        <record id="invoice_model_rule_client" model="ir.rule">
+            <field name="name">Client Invoice Access Rule</field>
+            <field name="model_id" ref="model_truffle_app_invoice_model"/>
+            <field name="groups" eval="[(4, ref('truffle_app.truffle_group_client'))]"/>
+            <field name="domain_force">[('client', '=', user.partner_id.id)]</field>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
         
         
 

@@ -8,6 +8,8 @@ class Order_model(models.Model):
     _name='truffle_app.order_model'
     _description = 'Order Model'
     _rec_name = 'reference'
+    _order = 'date desc'
+
 
     reference = fields.Integer(string="Reference",required=True,default=lambda self: self._get_id(),index=True,help="Order Reference")
     invoice_reference = fields.Many2one("truffle_app.invoice_model",string="Invoice Reference", readonly=True)
@@ -16,7 +18,7 @@ class Order_model(models.Model):
     vat = fields.Selection(string="VAT",selection=[('0','0'),('4','4'),('10','10'),('21','21')], default='0',help="VAT for this invoice")
     total = fields.Float(string="Total",compute="_calculate_total",help="Total invoice",store=True)
     lines = fields.One2many("truffle_app.lineorder_model","order",string="Lines", required=True)
-    client = fields.Many2one("res.partner", string="Client",required=True)
+    client = fields.Many2one("res.partner", string="Client", required=True, default=lambda self: self._default_client())
     active = fields.Boolean(string="Historical orders",default=True)
     state = fields.Selection(string="Status",selection=[('D','Draft'),('C','Confirmed'),('I','Invoiced')], default="D")
     
@@ -37,16 +39,14 @@ class Order_model(models.Model):
         self.total =self.base + (self.base*int(self.vat)/100)
 
     def confirmConfirmed(self):
-        # Verificar si la orden ya está confirmada
         if self.state == 'C':
             raise ValidationError("Order is already invoiced.")
-        
-        # Cambiar el estado de la orden a 'Confirmed'
         self.state = 'C'
 
         for line in self.lines:
-            line.product.stock = line.product.stock - line.weight
-
+        #    line.product.stock = line.product.stock - line.weight
+            new_stock = line.product.stock - line.weight
+            line.product.sudo().write({'stock':new_stock})
         
     def confirmInvoiced(self):
         if self.state == 'C':
@@ -87,3 +87,6 @@ class Order_model(models.Model):
             if not rec.lines:
                 raise ValidationError("You cannot save an invoice without lines.")
 
+    @api.model
+    def _default_client(self):
+        return self.env.user.partner_id.id

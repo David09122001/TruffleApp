@@ -23,6 +23,7 @@
 
     # always loaded
     'data': [
+        'security/truffle_security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
@@ -34,6 +35,7 @@
         'views/lineorder_view.xml',
         'views/invoice_view.xml',
         'views/order_view.xml',
+        'views/invoice_template.xml',
         'views/menu.xml'
         
     ],

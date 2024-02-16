@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<odoo>
+    <report
+        id="invoice_report"
+        model="truffle_app.invoice_model"
+        string="Report"
+        report_type="qweb-pdf"
+        name="truffle_app.report_invoice_document"
+        print_report_name="'Invoice truffle'"
+    />
+
+    <template id="report_invoice_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Invoice Report</h2>
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Date</th>
+                                    <th>Client</th>
+                                    <th>Base</th>
+                                    <th>VAT</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <t t-esc="doc.reference" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.date" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.client.name" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.base" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.vat" />
+                                    </td>
+                                    <td>
+                                        <t t-esc="doc.total" />
+                                    </td>
+                                </tr>
+                            <br/>
+                            <br/>
+                            <texto> 
+                            </texto>                            
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Weight</th>
+                                    <th>Quantity</th>
+                                    <th>Unit</th>
+                                    <th>Unit Price</th>
+                                    <th>Price</th>
+                                </tr>
+                                <t t-foreach="doc.lines" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="line.product.name" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.weight" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.quantity" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.unit" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.unit_price" />
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.price" />
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
