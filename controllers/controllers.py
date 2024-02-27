@@ -47,5 +47,3 @@ class TruffleApp(http.Controller):
 
         data = {"status": 200, "data": categorydata}
         return request.make_response(json.dumps(data), headers={'Content-Type': 'application/json'})
-
-
